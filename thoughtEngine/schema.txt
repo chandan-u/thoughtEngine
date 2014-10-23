@@ -1,0 +1,46 @@
+User{
+
+    user_id:
+    name:
+    username:
+    password:
+}
+
+
+Post{
+    article_id:
+    
+    user_id
+
+    title:
+    body:
+
+    tags:[ tag_name1, tag_name2..... ]
+
+    comments:[comment_id, comment_id........]
+    
+    visibility: priviate/public
+}
+
+
+comments{
+
+    comment_id: 
+    user_id:  //who commented
+    article_id: 
+    comment: 
+
+}
+
+
+# 
+
+tags{
+
+ tag_id:
+ tag_name:
+ article_id:
+ 
+}
+
+
