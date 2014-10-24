@@ -1,38 +1,49 @@
-<html>
+<!DOCTYPE html> 
+<html lang="en">
 
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}ThoughtEngine{% endblock %}</title>
-        {% block scripts %}{% endblock %}    
+
+        {% block scripts %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        {% endblock %}    
     </head>
 
     <body>
         
         <div id="container">
         {% block container %}
-            <div id="header">
+            <header>
             {% block header %}
                <div id="logo">
                 {% block logo %}
-
+                    <h1><small><strong>thought engine</strong></small></h3>
                 {% endblock %}
                </div>
-               <div id="navglobal">
-                {% block navglobal %}
+               
+               <nav>
+                {% block nav %}
+                    <ul>
+                        <li>posts</li>
+                        <li>thoughts</li>
+                    </ul>
                     
+            
                 {% endblock %}
-               </div>
+               </nav>
             {% endblock %}
-            </div>
-            <div id="content">
-             {% block content %}
+            </header>
+            <main>
+            {% block content %}
               
-             {% endblock %}
-            </div>
-            <div id="footer">
-                {% block footer %}
+            {% endblock %}
+            </main>
+            <footer>
+            {% block footer %}
 
-                {% endblock %}
-            </div>
+            {% endblock %}
+            </footer>
         {% endblock %}
         </div>
         
