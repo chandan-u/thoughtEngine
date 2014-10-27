@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for post in posts %}
-      <h2><a href="{{ url_for('blog.viewPost', title=post.title) }}">{{ post.title }}</a></h2>
-      <p>{{ post.body|truncate(100) }}</p>
-    {% endfor %}
+    
+      <div class="row">
+        {% for post in posts %}
+        <div id="post" class="co-xs-4 col-md-4">
+          <div class="panel panel-default">
+            <h1 class="text-center panel-heading"><a href="{{ url_for('blog.viewPost', title=post.title) }}">{{ post.title }}</a></h1>
+            <p class="lead text-justify panel-heading panel-body"><em>{{ post.body|truncate(100) }}</em></p>
+            <p class="text-info text-center">{{ post.created_at.strftime('%d %b-%y') }}</p>
+          </div>
+        {% endfor %}
+    </div>
+    
 {% endblock %}

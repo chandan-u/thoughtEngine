@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}ThoughtEngine{% endblock %}</title>
 
-        {% block scripts %}
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        {% block scripts %}
         {% endblock %}    
     </head>
 
@@ -14,32 +15,34 @@
         
         <div id="container">
         {% block container %}
-            <header>
-            {% block header %}
-               <div id="logo">
-                {% block logo %}
-                    <h1><small><strong>thought engine</strong></small></h3>
-                {% endblock %}
-               </div>
-               
-               <nav>
+               <nav class="navbar navbar-default">
                 {% block nav %}
-                    <ul>
-                        <li>posts</li>
-                        <li>thoughts</li>
-                    </ul>
-                    
-            
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"><strong>thoughtEngine<strong></a>
+                        </div>     
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>blog</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-star"></span>Thoughts</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 {% endblock %}
                </nav>
-            {% endblock %}
-            </header>
-            <main>
+               
+            <main class="container">
             {% block content %}
-              
+                
             {% endblock %}
             </main>
-            <footer>
+            <footer class="container">
             {% block footer %}
 
             {% endblock %}

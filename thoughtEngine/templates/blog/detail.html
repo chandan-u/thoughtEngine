@@ -12,18 +12,27 @@
 
 
 {% block content %}
- <div id="post-block"> 
-    <div id="post-title">
-        <h2>{{ post.title }}</h2>
-    </div>
-    <div id="post-created-at">
-        <p>{{ post.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
-    </div>
+<div class="container">
 
-    <div id="post-body">
+    <div class="center-block">
+
+    <div class="row">
+        <div class="spacer30"></div>
+    </div>
+    <div class="row">
+     <div class="col-xs-10 col-md-10">    
+      <div class="jumbotron">
+        <h1><small>{{ post.title }}</small></h1>
+    
+    
+        <p class="small text-info">{{ post.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
+
         <p>
            {{ post.body }}
         </p>
+      </div>
+    </div>
+    </div>
     </div>
  </div>
 {% endblock %}
