@@ -22,7 +22,9 @@ def viewPost(title):
     post = Post.objects.get_or_404(title=title)
     return render_template('blog/detail.html', post=post)
 
-
+@blog.route('/createPost')
+def createPost():
+	return render_template('blog/createPost.html')
 
 
 

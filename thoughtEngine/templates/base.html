@@ -2,13 +2,18 @@
 <html lang="en">
 
     <head>
+    {% block head %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}ThoughtEngine{% endblock %}</title>
 
-        
+        {% block bootstrap %}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        {% endblock %}
         {% block scripts %}
-        {% endblock %}    
+            
+        {% endblock %}
+            
+    {% endblock %}    
     </head>
 
     <body>
@@ -34,7 +39,7 @@
                             </ul>
                         </div>
                     </div>
-                {% endblock %}
+               {% endblock %}
                </nav>
                
             <main class="container">
