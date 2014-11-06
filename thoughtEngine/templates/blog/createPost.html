@@ -22,23 +22,21 @@
 	    <div class="">
 		    <h1><small>Keep it Simple, beautiful</small></h1>
 		    <hr/>
-		    <form action='/' method="get" class="">
+		    
 		       <div class="form-group">
-		        <strong><input type="text" class="form-control" rows="2" placeholder="title" style="width:65%;font:20px bold bolder"></strong>
-		        <textarea class="textarea form-control panel"  rows="15" placeholder="content start with an image..." style="width:65%"></textarea>
+		        <strong><input id="title" type="text" class="form-control" rows="2" placeholder="title" style="width:65%;font:20px bold bolder"></strong>
+		        <textarea name="content" class="textarea form-control panel"  rows="15" placeholder="content start with an image..." style="width:65%"></textarea>
 		       </div>
 		        <div class="form-group">
 		        	<i class="icon-tags" tabindex="-1"></i>
-		        	<input type="text" placeholder="tags seperated by commas" style="width:auto" />
+		        	<input id="tags" type="text" placeholder="tags seperated by commas" style="width:auto" />
 
 		        	<label class="checkbox inline add-on"><strong>Private</strong></label>
 		        	<input type="checkbox" class="checkbox inline"/>  
 		        </div>
                 
-                	<button id="save" class="btn btn-success" type="submit"></button>
+                	<button id="save" class="btn btn-success">save</button>
                 	<button id="cancel" class="btn btn-danger">Cancel</button>
-                
-		    </form>
 	    </div>
   </div>
 	
@@ -52,8 +50,25 @@
 
 <script type="text/javascript">
 	$('.textarea').wysihtml5({"html": true,});  
+	
 
-	$
+    
+    $('#save').click(function(){
+    	var title = $('#title').val();
+    	var html = $('.textarea').val();
+    	var tags = $("#tags").val();
+        $.post("/savePost",
+        {
+        	title: title,
+            content: html,
+            tags: tags
+        },
+        function(data,status){
+            alert("the saving of document Titled  " + data + " is " + status );
+            }
+        );
+    });
+	
 </script>
 
 

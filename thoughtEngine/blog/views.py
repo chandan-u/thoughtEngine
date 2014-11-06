@@ -24,7 +24,18 @@ def viewPost(title):
 
 @blog.route('/createPost')
 def createPost():
-	return render_template('blog/createPost.html')
+    return render_template('blog/createPost.html')
 
 
+@blog.route('/savePost', methods=['POST'])
+def savePost():
+    title = request.form['title']
+    content = request.form['content']
+    tags_string = request.form['tags']
+    tags =tags_string.split(',')
+    post  = Post(title=title, body=content, tags=tags)
+    post.save()
+    return title
+    
 
+    

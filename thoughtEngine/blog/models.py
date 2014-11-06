@@ -9,8 +9,8 @@ class Comment(db.EmbeddedDocument):
     text = db.StringField(max_length=200)
     # user_ref = db.ReferenceField(User)
 
-class Tag(db.EmbeddedDocument):
-    text = db.StringField(max_length=26)
+# class Tag(db.EmbeddedDocument):
+#     text = db.StringField(max_length=26)
 
 class Post(db.Document):
     
@@ -20,7 +20,7 @@ class Post(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     # if false then private else it is public
     visibility = db.BooleanField(default=False)
-    tags = db.ListField(db.EmbeddedDocumentField(Tag))
+    tags = db.ListField()
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
 
 
