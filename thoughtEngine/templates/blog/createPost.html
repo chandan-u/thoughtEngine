@@ -51,17 +51,19 @@
 <script type="text/javascript">
 	$('.textarea').wysihtml5({"html": true,});  
 	
-
+    
     
     $('#save').click(function(){
     	var title = $('#title').val();
     	var html = $('.textarea').val();
     	var tags = $("#tags").val();
+
+        
         $.post("/savePost",
         {
         	title: title,
             content: html,
-            tags: tags
+            tags: tags,
         },
         function(data,status){
             alert("the saving of document Titled  " + data + " is " + status );

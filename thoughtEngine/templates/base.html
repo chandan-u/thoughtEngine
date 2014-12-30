@@ -37,7 +37,22 @@
                                 <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>blog</a></li>
                                 <li><a href="#"><span class="glyphicon glyphicon-star"></span>Thoughts</a></li>
                             </ul>
+
+                            <div class="navbar-form navbar-right">
+                            {% if current_user.is_authenticated() %}
+                                Hi {{ current_user.name }}!
+
+                            {% else %}
+                            
+                              <a href="/login"><button type="submit" class="btn btn-success">Sign in</button></a>
+
+                              <a href="/register"<button type="submit" class="btn btn-success">Sign up</button></a>
+
+                            </div>
+                            {% endif %}
+                            
                         </div>
+                        
                     </div>
                {% endblock %}
                </nav>
