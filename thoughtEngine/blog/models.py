@@ -65,11 +65,7 @@ class Post(db.Document):
     postImage = db.URLField()
     #images = db.ListField(db.FileField())
 
-    def setPostImage():
-        """
-            we must extract the image href from the input html post. The first image in the post 
-            will be displayed when blog is listed in the index page.
-        """
+    
         
 
 

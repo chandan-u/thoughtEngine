@@ -7,6 +7,14 @@
 
 
 {% block scripts %}
+<style type="txt/css">
+  #post-body img{
+     max-width: 100%;
+     height: auto;
+  }
+
+</style>
+
     
 {% endblock %}
 
@@ -20,14 +28,14 @@
         <div class="spacer30"></div>
     </div>
     <div class="row">
-     <div class="col-xs-10 col-md-10">    
-      <div class="jumbotron">
+     <div class="col-md-10">    
+      <div class="jumbotron" style="">
         <h1><small>{{ post.title }}</small></h1>
     
     
         <p class="small text-info">{{ post.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
 
-        <div id="post-body">
+        <div id="post-body" class="">
            {{ post.body }}
         </div>
       </div>
@@ -35,4 +43,5 @@
     </div>
     </div>
  </div>
+ 
 {% endblock %}

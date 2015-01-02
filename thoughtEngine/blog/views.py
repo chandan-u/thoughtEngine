@@ -49,10 +49,11 @@ def savePost():
     tags_string = request.form['tags']
     tags =tags_string.split(',')
 
+    # pice of code that extracts the first image from the post, and makes it the posts display image.
     import lxml.html as parser
     xhtml = parser.document_fromstring(content)
     postImageURL = xhtml.xpath('//img[1]/@src')
-    
+
     
     post  = Post(title=title, body=content, tags=tags, postImage=postImageURL[0])
     post.save()
