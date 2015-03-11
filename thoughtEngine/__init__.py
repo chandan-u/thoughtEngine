@@ -31,14 +31,19 @@ if MONGO_URL:
      
 
    
-
-app.jinja_env.autoescape = False
 db = MongoEngine(app)
+
+#jinja
+app.jinja_env.autoescape = False
 
 # implement login manager for flask-login extension
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/login'
+
+#set Debug config:
+app.config['DEBUG'] = True
+
 
 def register_blueprints(app):
     # Prevents circular imports
