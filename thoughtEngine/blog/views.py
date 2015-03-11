@@ -18,6 +18,7 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 
 @login_manager.user_loader
 def load_user(id):
+    print id
     return User.objects.get( pk = id)
 
 
@@ -83,7 +84,7 @@ def login():
     password = request.form['password']
     registered_user = User.objects.get(email=email,password=password)
     if registered_user is None:
-        # flash('email or Password is invalid' , 'error')
+        #   flash('email or Password is invalid' , 'error')
         return redirect('/login')
     login_user(registered_user)
     # flash('Logged in successfully')
