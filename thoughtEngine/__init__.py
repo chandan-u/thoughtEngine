@@ -8,6 +8,7 @@ app=Flask(__name__)
 
 
 app.config["MONGODB_SETTINGS"] = {'DB': "my_thought_log"}
+
 app.config["SECRET_KEY"] = "KeepThisS3cr3t"
 app.jinja_env.autoescape = False
 db = MongoEngine(app)
