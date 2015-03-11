@@ -30,11 +30,11 @@ if MONGO_URL:
     # app.config["MONGODB_SETTINGS"] = {'DB': "my_thought_log"}
      
 
-   
+
+app.jinja_env.autoescape = False  
 db = MongoEngine(app)
 
-#jinja
-app.jinja_env.autoescape = False
+
 
 # implement login manager for flask-login extension
 login_manager = LoginManager()
