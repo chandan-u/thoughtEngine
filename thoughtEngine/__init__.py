@@ -1,30 +1,36 @@
 from flask import Flask
-from flask.ext.mongoengine import MongoEngine, connect
+from flask.ext.mongoengine import MongoEngine
+from mongoengine import connect
 from flask.ext.login import LoginManager
 
 import os
+import re
 
-MONGO_URL = os.environ.get("MONGOHQ_URL")
-
-
-if MONGO_URL:
-    credentials = re.sub(r"(.*?)//(.*?)(@hatch)", r"\2",MONGO_URL)
-    username = credentials.split(":")[0]
-    password = credentials.split(":")[1]
-    app.config["MONGODB_DB"] = MONGO_URL.split("/")[-1]
-    app.config["SECRET_KEY"] = "KeepThisS3cr3t"
-    connect(
-        MONGO_URL.split("/")[-1],
-        host=MONGO_URL,
-        port=29257,
-        username=username,
-        password=password
-    )
 
 app=Flask(__name__)
 
 
-#app.config["MONGODB_SETTINGS"] = {'DB': "my_thought_log", 'host':'', 'port':'', 'user': '', 'password': ''}
+
+# establish connection with the DB
+
+MONGO_URL = os.environ.get("MONGOHQ_URL")
+MONGO_USER = os.environ.get("MONGO_USER")
+MONGO_PASS=os.environ.get("MONGO_PASS")
+
+if MONGO_URL:
+    #credentials = re.sub(r"(.*?)//(.*?)(@hatch)", r"\2",MONGO_URL)
+    #username = credentials.split(":")[1]
+    #password = credentials.split(":")[2]
+    app.config["MONGODB_DB"] = MONGO_URL.split("/")[-1]
+    app.config["SECRET_KEY"] = "KeepThisS3cr3t"
+    app.config["MONGODB_HOST"]=MONGO_URL
+    app.config["MONGODB_PORT"]=29257
+    app.config["MONGODB_USERNAME"]=MONGO_USER
+    app.config["MONGODB_PASSWORD"]=MONGO_PASS 
+    # app.config["MONGODB_SETTINGS"] = {'DB': "my_thought_log"}
+     
+
+   
 
 app.jinja_env.autoescape = False
 db = MongoEngine(app)
