@@ -1,1 +1,1 @@
-web: gunicorn thoughtengine.__init__:app
+web: gunicorn thoughtEngine.__init__:app
