@@ -50,6 +50,8 @@ def savePost():
     tags =tags_string.split(',')
 
     # pice of code that extracts the first image from the post, and makes it the posts display image.
+    # include exceptional handling. if no image is there display title in the place of image.
+    # And the value postImage will be set to None.
     import lxml.html as parser
     xhtml = parser.document_fromstring(content)
     postImageURL = xhtml.xpath('//img[1]/@src')
