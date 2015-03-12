@@ -2,6 +2,7 @@ from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from mongoengine import connect
 from flask.ext.login import LoginManager
+from thoughtEngine.blog.views import load_user
 
 import os
 import re
@@ -40,6 +41,8 @@ db = MongoEngine(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/login'
+login_manager.user_loader(load_user)
+
 
 #set Debug config:
 app.config['DEBUG'] = True
