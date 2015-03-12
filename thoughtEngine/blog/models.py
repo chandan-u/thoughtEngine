@@ -60,7 +60,7 @@ class Post(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     # if false then private else it is public
     visibility = db.BooleanField(default=False)
-    tags = db.ListField()
+    tags = db.ListField(db.StringField())
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
     postImage = db.URLField()
     #images = db.ListField(db.FileField())
