@@ -10,6 +10,8 @@ from thoughtEngine import login_manager
 from flask import Flask,session,flash, abort ,g
 from flask.ext.login import login_user , logout_user , current_user , login_required
 
+from mongoengine.queryset import DoesNotExist
+
 blog = Blueprint('blog', __name__, template_folder='templates')
 
 
@@ -18,7 +20,6 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 
 @login_manager.user_loader
 def load_user(id):
-    print id
     return User.objects.get( pk = id)
 
 
@@ -82,13 +83,17 @@ def login():
         return render_template('login.html')
     email = request.form['email']
     password = request.form['password']
-    registered_user = User.objects.get(email=email,password=password)
-    if registered_user is None:
-        #   flash('email or Password is invalid' , 'error')
-        return redirect('/login')
+
+    try:
+        registered_user = User.objects.get(email=email,password=password)
+    except DoesNotExist:
+        return 'DoesNotExist'
+
     login_user(registered_user)
     # flash('Logged in successfully')
-    return redirect(request.args.get("next") or '/')
+    return "exist"
+
+
 
 
 
@@ -98,3 +103,8 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
+
+
+@blog.route('/journal')
+def jounral():
+    return render_template('blog/journal.html')

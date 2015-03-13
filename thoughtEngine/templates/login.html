@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-  <form action="/login" method="post" class="form-horizontal">
+<form id="LogInForm" class="form-horizontal">
     <h2>Signin To put your thoughts</h2>
+    
+    <p id="DoesNotExistErrorMsg" class="text-danger"></p>
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-4">
       <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+
     </div>
   </div>
   <div class="form-group">
@@ -25,8 +28,35 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-4">
-      <button type="submit" class="btn btn-default">Sign in</button>
+      <button type="button"  class="btn btn-default" id="signin">Sign in</button>
     </div>
-  </div
-  </form>
+  </div>
+</form>
+
+
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+ -->
+<script type="text/javascript">
+   
+$('#signin').click(function(event){
+      var email = $('#email').val();
+      var password = $('#password').val();
+
+      $.post("/login",
+      {
+          'email': email,
+          'password': password,
+      },
+      function(data,status){
+         if (data =='DoesNotExist'){
+            $('#DoesNotExistErrorMsg').text("Login Failed! Incorrect username and password");
+           }
+         else{
+            window.location.href = '/';
+          }
+        }
+      );
+    });
+  
+</script>
 {% endblock %}

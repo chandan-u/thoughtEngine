@@ -7,7 +7,7 @@ from thoughtEngine import db
 
 class User(db.Document):
 
-    email = db.EmailField(max_length=100, required=True, unique=True)
+    email = db.EmailField(max_length=100, required=True,unique=True)
     password = db.StringField(max_length=15, required=True)
     name = db.StringField(max_length=100, required=True)
     registerd_on = db.DateTimeField(default=datetime.datetime.now, required=True)
