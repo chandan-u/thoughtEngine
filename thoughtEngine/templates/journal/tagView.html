@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+
+{% block scripts %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.js" ></script>              
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+      })
+    </script>
+<style type="text/css">
+
+  
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display:block;
+    height:40px;
+   }
+      
+  /*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+/*body {
+  padding-top: 70px;
+}*/
+footer {
+  padding: 30px 0;
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 767px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+  }
+
+  .row-offcanvas-right {
+    right: 0;
+  }
+
+  .row-offcanvas-left {
+    left: 0;
+  }
+
+  .row-offcanvas-right
+  .sidebar-offcanvas {
+    right: -50%; /* 6 columns */
+  }
+
+  .row-offcanvas-left
+  .sidebar-offcanvas {
+    left: -50%; /* 6 columns */
+  }
+
+  .row-offcanvas-right.active {
+    right: 50%; /* 6 columns */
+  }
+
+  .row-offcanvas-left.active {
+    left: 50%; /* 6 columns */
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 50%; /* 6 columns */
+  }
+}
+
+
+
+</style>
+
+    
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="row row-offcanvas row-offcanvas-left">
+      
+      <div class="col-md-3 col-xs-6 col-sm-3  sidebar-offcanvas" id="sidebar"> 
+          <div class="list-group">
+          {% for tag in tags %}
+            <a href="/journal/tagView/{{ tag }}" class="list-group-item ">{{ tag }}</a>
+          {% endfor %}  
+            <!-- <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item Journal.objects(User = current_user, tags=tag)">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a> -->
+          </div>
+      </div><!--/.sidebar-offcanvas-->
+      <div class="col-md-9 col-xs-12 col-sm-9">
+              <div class="list-group">
+              {% for journal in journals %}
+                
+                    <a href="/journal/{{ journal.id }}" class="list-group-item"> 
+                        <p class="list-group-item-head"><span class="badge">{{ journal.created_on.strftime('%Y-%m-%d') }}</span> <span class="badge"> {{ journal.created_on.strftime('%H:%m') }}</span></p>
+                        <div class="list-group-item-text ellipsis">{{ journal.content }}</div>
+                    </a>
+                
+              {% endfor %}
+              </div>
+
+            
+              
+      </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+
+
+           
+      // left side menu toggle. slides the menu to left when the size reduces.
+      $(document).ready(function () {
+          $('[data-toggle="offcanvas"]').click(function () {
+              $('.row-offcanvas').toggleClass('active');
+          }); //
+
+          
+      });
+    </script>
+
+{% endblock %}

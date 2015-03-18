@@ -2,7 +2,7 @@
 
 from flask import Blueprint, request, redirect, render_template, url_for
 from flask.views import View
-from thoughtEngine.blog.models import  Post, Comment, User
+from thoughtEngine.blog.models import  Post, Comment, User, Journal
 
 from thoughtEngine import login_manager
 
@@ -11,6 +11,8 @@ from flask import Flask,session,flash, abort ,g
 from flask.ext.login import login_user , logout_user , current_user , login_required
 
 from mongoengine.queryset import DoesNotExist
+
+import datetime
 
 blog = Blueprint('blog', __name__, template_folder='templates')
 
@@ -24,7 +26,7 @@ def load_user(id):
 
 
      
-
+# blog related views
 @blog.route('/')
 def viewList():
     posts = Post.objects.all()
@@ -56,13 +58,16 @@ def savePost():
     # And the value postImage will be set to None.
     import lxml.html as parser
     xhtml = parser.document_fromstring(content)
-    postImageURL = xhtml.xpath('//img[1]/@src')
-
-    
-    post  = Post(title=title, body=content, tags=tags, postImage=postImageURL[0])
+    if(xhtml.xpath('//img[1]/@src')):
+        postImageURL = xhtml.xpath('//img[1]/@src')
+        post  = Post(title=title, body=content, tags=tags, postImage=postImageURL[0])
+    else:
+        post  = Post(title=title, body=content, tags=tags)
     post.save()
     return title
 
+
+# User registration/login/logout views
 @blog.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -77,6 +82,7 @@ def register():
     # flash('User successfully registered')
     return redirect('/login')
  
+#ajax request
 @blog.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':     
@@ -94,17 +100,66 @@ def login():
     return "exist"
 
 
-
-
-
-
-
 @blog.route('/logout')
 def logout():
     logout_user()
     return redirect('/')
 
 
+# journal views
 @blog.route('/journal')
-def jounral():
-    return render_template('blog/journal.html')
+@login_required
+def journal():
+    journals = Journal.objects(user=current_user.id)
+    tags=[]
+    for journal in journals:
+        for tag in journal.tags:
+            if tag not in tags:
+                tags.append(tag) 
+    return render_template('journal/journal.html', tags=tags)
+
+
+#ajax request
+@blog.route('/saveJourn', methods=['POST'])
+@login_required
+def saveJournal():
+    content = request.form["content"]
+    created_on = request.form["created_on"] 
+    tagstring = request.form["tagstring"]
+    tags = tagstring.split(',')
+    # we are getting ISO string from the front end
+    journal = Journal(user=current_user.id, created_on= datetime.datetime.strptime(created_on, "%Y-%m-%dT%H:%M:%S.%fZ"), content=content, tags=tags)
+    journal.save()
+    return "S"
+
+
+@blog.route('/journal/tagView/<search_tag>', methods=['GET'])
+@login_required
+def journalTagView(search_tag):
+    journals = Journal.objects(user = current_user.id)
+    
+    
+    tags=[]
+    for journal in journals:
+        for tag in journal.tags:
+            if tag not in tags:
+                tags.append(tag)
+    
+    
+    tag_journals = Journal.objects(user = current_user.id, tags__contains=search_tag)   
+    return render_template('journal/tagView.html', journals=tag_journals, tags=tags)
+
+@blog.route('/journal/<journal_id>', methods=['GET'])
+@login_required
+def viewJournal(journal_id):
+    journals = Journal.objects(user = current_user.id)
+    tags=[]
+    for journal in journals:
+        for tag in journal.tags:
+            if tag not in tags:
+                tags.append(tag)
+    journal = Journal.objects.get(pk = journal_id)
+    print journal
+    return render_template('journal/viewJournal.html', journal=journal, tags=tags )
+
+

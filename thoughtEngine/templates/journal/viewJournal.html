@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+
+{% block scripts %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.js" ></script>              
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+      })
+    </script>
+<style type="text/css">
+
+  #textarea {
+    word-wrap: break-word;
+  }
+
+  #textarea{
+     width: 100%;
+     height: 100%;
+     min-height: 100%;
+  }
+  
+      
+  /*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+/*body {
+  padding-top: 70px;
+}*/
+footer {
+  padding: 30px 0;
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 767px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+  }
+
+  .row-offcanvas-right {
+    right: 0;
+  }
+
+  .row-offcanvas-left {
+    left: 0;
+  }
+
+  .row-offcanvas-right
+  .sidebar-offcanvas {
+    right: -50%; /* 6 columns */
+  }
+
+  .row-offcanvas-left
+  .sidebar-offcanvas {
+    left: -50%; /* 6 columns */
+  }
+
+  .row-offcanvas-right.active {
+    right: 50%; /* 6 columns */
+  }
+
+  .row-offcanvas-left.active {
+    left: 50%; /* 6 columns */
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 50%; /* 6 columns */
+  }
+}
+
+
+
+</style>
+
+    
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="row row-offcanvas row-offcanvas-left">
+      
+      
+      <div class="col-md-3 col-xs-6 col-sm-3  sidebar-offcanvas" id="sidebar"> 
+
+          <p class="visible-xs ">
+      <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button></p>
+          <div class="list-group">
+          {% for tag in tags %}
+            <a href="/journal/tagView/{{ tag }}" class="list-group-item ">{{ tag }}</a>
+          {% endfor %}  
+            <!-- <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item Journal.objects(User = current_user, tags=tag)">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a> -->
+          </div>
+      </div><!--/.sidebar-offcanvas-->
+      <div class="col-md-9">
+            <div id="date-display" class="row">
+              <div id="day-box" class="col-md-2 col-xs-4 col-lg-2 col-sm-2">  
+                <p id="day"  class="" ></p>
+              </div>
+              <div class="col-md-1 col-xs-3">
+                <p id="month"></p>
+                <p id="year"></p>
+              </div>
+              <div class="col-md-8 col-xs-3">
+                <p id="time" class="pull-right"> </p>
+              </div>
+              <div class="col-md-1 col-xs-2 col-sm-1" style="padding-left:0px;">
+                  <button type="button" id="done" class="btn btn-default" style="margin-top:18px; color:white; background-color:#40A3C4;"><span class="glyphicon glyphicon-ok" style="font-size:1.2em;" aria-hidden="true"></span></a>
+              </div>
+            </div>
+
+            <div class="row">
+                <div id="textarea" contenteditable="false" class="col-md-12">
+                  {{ journal.content }}
+                </div>
+                <div id="myModal" class="modal fade" data-backdrop="false" style="vertical-align: middle;">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content" >
+                             <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                  <h4 class="modal-title">Tags:</h4>
+                             </div>
+                            <div class="modal-body">
+                                <input type="text" class="form-control" id="tagstring" required>
+                            </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-primary" id="save" >save</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">back</button>
+                           </div>
+                        </div> 
+                    </div>
+              </div>
+            </div>
+            
+      </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+
+
+        // prepare the date/time/day/contenteditable-div
+        $(document).ready(function(){
+            now = new Date("{{ journal.created_on.strftime("%Y-%m-%d"+'T'+"%H:%m:%S") }}");
+            var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            var months = ["JAN", "FEB", "MAR", "APRIL", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            
+            // $('#day').text( days[ now.getDay() ] );
+            // $('#day').css( { "font-size":"24px", "margin-top": "20px","margin-bottom": "10px","font-weight":"100"} );
+            // $('#day-box').css({ 'padding-right': '0px'});
+           // UI vertical Rotatiion of day 
+            // $('#day').css({ '-webkit-transform': "rotate(-90deg)" , '-moz-transform': "rotate(-90deg)", '-ms-transform': "rotate(-90deg)", '-o-transform': "rotate(-90deg)", 'filter': "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)", 'transform': 'rotate(-90.0deg)', 'padding': '0px' });
+            
+            $('#day').text( days[now.getDay()] + ',' + now.getDate() );
+            $('#day-box').css({ 'padding-right': '0px', });
+            $('#day').css( { "font-size":"24px", "margin-top": "20px","margin-bottom": "10px","font-weight":"100"} );
+
+            $('#month').text( months[ now.getMonth() ]);
+            $('#year').text( now.getFullYear() );
+            $('#month').css({ "margin-top": "15px", "margin-bottom":"0px" });
+            $('#year').css({ "margin": "0px" });
+
+            
+            var hours = now.getHours();
+            var midday = ""
+            if ( hours > 12){
+                hours = hours-12;
+                midday ="PM";
+            }
+            else{ 
+              midday="AM"
+            }
+            $('#time').html( hours + ':' + now.getMinutes() + "<small>" + midday+"</small>");
+            $('#time').css({ "font-weight": "100", "font-size":"24px", "margin-top": "20px","margin-bottom": "10px",});
+
+            
+            // design the textArea
+            $('#textarea').css({ "outline":"none", "border":"none", "overflow":"hidden",  "resize":"none", "background-color": "#FFFFFF"});
+            $('#textarea').focus();
+            $('#textarea').css({"font":"proxima-nova', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif", "font-size": "16px","line-height": "26px","color":"#3a3a3a", "font-weight":"100", "letter-spacing": "0.175999999046326px"})
+    
+       });
+
+       // save the html input from the div
+       $('#done').click(function(){
+           var content = $('#textarea').html();
+          
+              
+           $('#myModal').modal({
+               backdrop: false,
+               keyboard: false,
+               show : true,
+           });
+           $('#myModal').on('shown.bs.modal', function () {
+               $('#tagstring').focus();
+               // you can implement input tags with the help bootstrap labels. For now stick with normal input
+               //$('#tagstring').html('<span class="label label-info">Info</span>');
+
+           });
+
+           $('#save').click(function(){
+                $('#myModal').modal('hide');
+                $('#myModal').on('hidden.bs.modal', function (e){
+                    var tagstring = $('#tagstring').val();
+                    $.post( "/saveJourn", 
+                            {'content':content, 'created_on': now.toISOString(), 'tagstring': tagstring },
+                            function(data,status){
+                                if (data =='S'){
+                                    $('.modal-header').html('');
+                                    $('.modal-footer').html('');
+                                    $('.modal-body').html('<div class="alert alert-success text-center">Saved!</div>');
+                                    $('<div class="modal-content"></div>').css({'max-height':"200px", "height":'100%'})
+                                    $('#myModal').modal({
+                                      show: true,
+                                    });
+                                    setTimeout(function(){
+                                      window.location.href = '/journal';}, 4000);
+                                }
+                                else{
+                                    $('.modal-header').html('')
+                                    $('.modal-body').html('<div class="alert alert-success"></div>')
+                                    $('#myModal').modal({
+                                      backdrop: false,
+                                      show: true,
+                                    });
+                                }
+                            }// function (data, status)     
+                    );//post ajax
+                });// modal on hide  
+           });// ('#save').click
+          
+       });// ('#done').click
+
+      // left side menu toggle. slides the menu to left when the size reduces.
+      $(document).ready(function () {
+          $('[data-toggle="offcanvas"]').click(function () {
+              $('.row-offcanvas').toggleClass('active')
+      }); //
+});
+    </script>
+
+{% endblock %}

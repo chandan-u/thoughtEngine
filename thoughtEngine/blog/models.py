@@ -11,7 +11,7 @@ class User(db.Document):
     password = db.StringField(max_length=15, required=True)
     name = db.StringField(max_length=100, required=True)
     registerd_on = db.DateTimeField(default=datetime.datetime.now, required=True)
-
+    
     # getting  "self.email object has no attribute '_data' "
     # lets instantiate the objects without the use of constructor
     # def __init__(self , email ,password , name):
@@ -32,7 +32,7 @@ class User(db.Document):
         return unicode(self.id)
  
     def __repr__(self):
-        return '<User %r>' % (self.username)
+        return '<User %r>' % (self.email)
 
 
 class Comment(db.EmbeddedDocument):
@@ -62,11 +62,24 @@ class Post(db.Document):
     visibility = db.BooleanField(default=False)
     tags = db.ListField()
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
-    postImage = db.URLField()
+    postImage = db.URLField(required=False)
     #images = db.ListField(db.FileField())
 
     
         
+
+class Journal(db.Document):
+    """
+        daily journal
+    """
+    
+    user = db.ReferenceField(User)
+    created_on = db.DateTimeField()
+    content = db.StringField(required=True)
+    tags =  db.ListField()
+
+
+
 
 
     
