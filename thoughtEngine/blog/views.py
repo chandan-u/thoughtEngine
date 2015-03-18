@@ -4,7 +4,6 @@ from flask import Blueprint, request, redirect, render_template, url_for
 from flask.views import View
 from thoughtEngine.blog.models import  Post, Comment, User, Journal
 
-from thoughtEngine import login_manager
 
 
 from flask import Flask,session,flash, abort ,g
@@ -20,9 +19,7 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 
 
 
-@login_manager.user_loader
-def load_user(id):
-    return User.objects.get( pk = id)
+
 
 
      

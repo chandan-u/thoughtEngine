@@ -36,12 +36,14 @@ app.jinja_env.autoescape = False
 db = MongoEngine(app)
 
 
-
+@login_manager.user_loader
+def load_user(id):
+    return User.objects.get( pk = id)
 # implement login manager for flask-login extension
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/login'
-#login_manager.user_loader(load_user)
+login_manager.user_loader(load_user)
 
 
 #set Debug config:
