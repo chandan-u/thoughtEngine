@@ -2,7 +2,7 @@ from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from mongoengine import connect
 from flask.ext.login import LoginManager
-from thoughtEngine.blog.views import load_user
+# from thoughtEngine.blog.views import load_user
 
 import os
 import re
