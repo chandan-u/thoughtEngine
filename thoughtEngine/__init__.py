@@ -36,7 +36,8 @@ app.jinja_env.autoescape = False
 db = MongoEngine(app)
 
 
-@login_manager.user_loader
+from thoughtEngine.blog.models import User
+# @login_manager.user_loader
 def load_user(id):
     return User.objects.get( pk = id)
 # implement login manager for flask-login extension
